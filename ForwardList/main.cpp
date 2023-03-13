@@ -89,13 +89,13 @@ public:
 	}
 	void insert(int Data, int Index)
 	{
-		Element* New = new Element(Data);
+		/*Element* New = new Element(Data);
 		Element* Temp = Head;
 		for (size_t i = 0; i < Index-1; i++)
 		{
 			Temp = Temp->pNext;
 		}
-		Temp->pNext = New;
+		Temp->pNext = New;*/
 	}
 	void erase(int Index)
 	{
