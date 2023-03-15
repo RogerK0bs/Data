@@ -112,15 +112,35 @@ public:
 	}
 	void erase(int Index)
 	{
-		int counter=0;
+		//int counter=0;
 		Element* pTemp = Head;
 		Element* Temp = Head;
-		while (pTemp != nullptr)
+		for (size_t i = 0; i < Index; i++)
 		{
-			for (size_t i = 0; i < Index-1; i++)
+			if (Index - 1 == 0)
+			{
+				Head = pTemp->pNext;
+				delete pTemp;
+				size--;
+				break;
+			}
+			else
 			{
 
+				Temp->pNext = pTemp->pNext;
+				delete pTemp;
+				size--;
+				break;
 			}
+			if (i==Index-1)
+			{
+				Temp = pTemp;
+				pTemp = pTemp->pNext;
+				//counter++;
+			}
+		}
+		/*while (pTemp != nullptr)
+		{
 			if (counter == Index - 1)
 			{
 				if (Index - 1 == 0)
@@ -144,7 +164,7 @@ public:
 				pTemp = pTemp->pNext;
 				counter++;
 			}
-		}
+		}*/
 	}
 };
 
