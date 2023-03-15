@@ -6,6 +6,7 @@ class Element
 {
 	int Data; // значение элемента
 	Element* pNext; // адрес след
+	static int count;
 public:
 	Element(int Data, Element* pNext = nullptr) : Data(Data), pNext(pNext)
 	{
@@ -15,20 +16,25 @@ public:
 	{
 		cout << "EDestructor\t" << this << endl;
 	}
-
 	friend class ForwardList;
+
 };
+int Element::count = 0;//Инициализируем статическую переменную, объявленную в классе
 class ForwardList									//Forward - односвязный, одноправленный
 {
 	Element* Head; // Голова списка - указатель на 0вой элемент списка
+	int size;
 public:
 	ForwardList()
 	{
+		size = 0;
+		//Element::count++;
 		Head = nullptr; // Если список пуст, то его голова указывает на '0';
 		cout << "ElConst\t" << this << endl;
 	}
 	~ForwardList()
 	{
+		//Element::count--;
 		cout << "LDes:\t" << this << endl;
 	}
 	// Adding el
@@ -40,6 +46,8 @@ public:
 		New->pNext = Head;
 		// Голову списка "переводим" на новый элемент:
 		Head = New;
+		size++;
+		//Head = new Element(Data, Head);
 	}
 	void push_back(int Data)
 	{
@@ -51,16 +59,12 @@ public:
 			Temp = Temp->pNext;
 		// Добавляем элемент в конец списка
 		Temp->pNext = New;
+		size++;
 	}
 	//Methods:
 	ForwardList Copy(ForwardList list,int N)
 	{
-		ForwardList CopyList;
-		for (size_t i = 0; i < N; i++)
-		{
-			
-		}
-		return CopyList;
+	
 	}
 	void print()const
 	{
@@ -70,37 +74,77 @@ public:
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 			Temp = Temp->pNext; // Переход на след эл
 		}
+		//cout << "Кол-во эл списка = " << Head->count << endl;
+		cout << "Кол-во эл списка = " << size << endl;
 	}
 	void pop_front()
 	{
-		Element* Temp = Head;
+		Element* Buf = Head;
 		Head = Head->pNext;
-		delete Temp;
+		delete Buf;
+		size--;
 	}
 	void pop_back()
 	{
-		Element* Temp = this->Head;
-		while (Temp->pNext)
-			Temp = Temp->pNext; // переход в конец списка
-
-		Element* Del = Temp->pNext;
-		Temp->pNext = Del->pNext;
-		//delete Del;
-	}
-	void insert(int Data, int Index)
-	{
-		/*Element* New = new Element(Data);
 		Element* Temp = Head;
-		for (size_t i = 0; i < Index-1; i++)
+		while (Temp->pNext->pNext)
+		{
+			Temp = Temp->pNext; // переход в конец списка
+		}
+		delete Temp->pNext;
+		Temp->pNext = nullptr;
+		size--;
+	}
+	void insert( int Index, int Data)
+	{
+		if (Index == 0)return push_front(Data);
+		if (Index > size)return;
+		Element* New = new Element(Data);
+		Element* Temp = Head;
+		for (size_t i = 0; i < Index - 1; i++)
 		{
 			Temp = Temp->pNext;
 		}
-		Temp->pNext = New;*/
+		New->pNext = Temp->pNext;
+		Temp->pNext = New;
+		size++;
+		
 	}
 	void erase(int Index)
 	{
+		int counter=0;
+		Element* pTemp = Head;
+		Element* Temp = Head;
+		while (pTemp != nullptr)
+		{
+			for (size_t i = 0; i < Index-1; i++)
+			{
 
-
+			}
+			if (counter == Index - 1)
+			{
+				if (Index - 1 == 0)
+				{
+					Head = pTemp->pNext;
+					delete pTemp;
+					size--;
+					break;
+				}
+				else
+				{
+					Temp->pNext = pTemp->pNext;
+					delete pTemp;
+					size--;
+					break;
+				}
+			}
+			else
+			{
+				Temp = pTemp;
+				pTemp = pTemp->pNext;
+				counter++;
+			}
+		}
 	}
 };
 
@@ -120,4 +164,19 @@ int main()
 	list.print();
 	
 	list.pop_back();
+	list.print();
+	int index, value;
+	cout << "Введите индекс = "; cin >> index;
+	cout << "\nВведите значение = "; cin >> value;
+	list.insert(index, value);
+	list.print();
+	//ForwardList list2;
+	//list2.push_back(13);
+	//list2.push_back(12);
+	//list2.push_back(11);
+	//list2.push_back(1);
+	//list2.print();
+	cout << "Введите индекс удаляемого элемента = "; cin >> index;
+	list.erase(index);
+	list.print();
 }
