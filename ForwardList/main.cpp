@@ -151,6 +151,17 @@ public:
 		}*/
 	}
 };
+ForwardList& operator+(ForwardList& left, ForwardList& right)
+{
+	ForwardList buffer_list;
+	for (size_t i = 0; i < sizeof(left+right); i++)
+	{
+		buffer_list.push_back(0);
+	}
+	cout << "Ѕуффер лист = " << endl;
+	buffer_list.print();
+	for(int i:left)
+}
 
 int main()
 {
@@ -161,26 +172,39 @@ int main()
 	{
 		list.push_back(rand() % 100);
 	}
-	list.push_back(999);
-	list.print();
-	cout << tab;
-	list.pop_front();
-	list.print();
-	
-	list.pop_back();
-	list.print();
-	int index, value;
-	cout << "¬ведите индекс = "; cin >> index;
-	cout << "\n¬ведите значение = "; cin >> value;
-	list.insert(index, value);
-	list.print();
-	//ForwardList list2;
-	//list2.push_back(13);
-	//list2.push_back(12);
-	//list2.push_back(11);
-	//list2.push_back(1);
-	//list2.print();
-	cout << "¬ведите индекс удал€емого элемента = "; cin >> index;
-	list.erase(index);
-	list.print();
+	//list.push_back(999);
+	//list.print();
+	//cout << tab;
+	//list.pop_front();
+	//list.print();
+	//
+	//list.pop_back();
+	//list.print();
+	//int index, value;
+	//cout << "¬ведите индекс = "; cin >> index;
+	//cout << "\n¬ведите значение = "; cin >> value;
+	//list.insert(index, value);
+	//list.print();
+	////ForwardList list2;
+	////list2.push_back(13);
+	////list2.push_back(12);
+	////list2.push_back(11);
+	////list2.push_back(1);
+	////list2.print();
+	//cout << "¬ведите индекс удал€емого элемента = "; cin >> index;
+	//list.erase(index);
+	//list.print();
+	//ForwardList list = { 3, 5, 8, 13, 21 };
+	////list.print();
+	for (int i : list)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
+
+	ForwardList list2 = { 34, 55, 89 };
+	for (int i : list2)cout << i << tab; cout << endl;
+
+	ForwardList list3 = list + list2;
+	for (int i : list3)cout << i << tab; cout << endl;
 }
